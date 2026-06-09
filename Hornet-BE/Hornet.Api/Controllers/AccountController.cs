@@ -1,4 +1,6 @@
+using System.Security.Authentication;
 using Hornet.Api.Service;
+using Hornet.Data.Entities;
 using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +22,42 @@ public class AccountController : ControllerBase
     {
         try
         {
-            await _service.SignUpUserAsync(request);
+            UserEntity entity = await _service.SignUpUserAsync(request);
+            return Ok(entity);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest("Password and PasswordConfirm do NOT match");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return BadRequest();
+        }
+    }
+
+    [HttpGet("sign-in", Name = "SignIn")]
+    public async Task<IActionResult> SignIn([FromQuery] SignInRequest request)
+    {
+        try
+        {
+            await _service.SignInUserAsync(request);
             return Ok();
         }
-        catch
+        catch (Exception e)
         {
-            return BadRequest();
+            Console.WriteLine(e.Message);
+            switch (e)
+            {
+                // Not providing any additional information to the user on purpose, just to not expose why the login failed to
+                // potential hackers
+                case InvalidCredentialException:
+                case KeyNotFoundException:
+                    return Unauthorized("Invalid Email or Password");
+
+                default:
+                    return StatusCode(500);
+            }
         }
     }
 }

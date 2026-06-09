@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hornet.Data.Models;
+using Hornet.Data.Entities;
 using Hornet.Domain.DTOs.Account;
 
 namespace Hornet.Data.Mappers;
 
 public static class UserMapper
 {
-    public static User FromRequest(SignUpRequest request)
+    public static UserEntity FromRequest(SignUpRequest request)
     {
-        return new User
+        return new UserEntity
         {
             Email = request.Email,
             FirstName = request.FirstName,

@@ -4,10 +4,28 @@ namespace Hornet.Domain.DTOs.Account;
 
 public class SignUpRequest
 {
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
+    private string _firstName = string.Empty;
+    private string _lastName = string.Empty;
+    private string _email = string.Empty;
+
+    public required string FirstName
+    {
+        get => _firstName;
+        set => _firstName = value.Trim();
+    }
+
+    public required string LastName
+    {
+        get => _lastName;
+        set => _lastName = value.Trim();
+    }
+
     [EmailAddress]
-    public required string Email { get; set; }
+    public required string Email
+    {
+        get => _email;
+        set => _email = value.Trim();
+    }
     public required string Password { get; set; }
 
     /// <summary>

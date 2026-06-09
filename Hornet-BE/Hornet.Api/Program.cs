@@ -12,7 +12,10 @@ builder.Services.AddOpenApi();
 
 string? cs = builder.Configuration.GetConnectionString("MySql") ?? throw new Exception("No Connection string");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySQL(cs));
+{
+    options.UseMySQL(cs, b => b.MigrationsAssembly("Hornet.Data"));
+}
+);
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 
