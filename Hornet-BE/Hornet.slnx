@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Hornet.Api/Hornet.Api.csproj" />
+  <Project Path="Hornet.Data/Hornet.Data.csproj" />
+  <Project Path="Hornet.Domain/Hornet.Domain.csproj" />
+</Solution>
