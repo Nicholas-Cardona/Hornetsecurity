@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hornet.Domain.DTOs.Account;
 
-public class UserModel
+public class SignUpRequest
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
