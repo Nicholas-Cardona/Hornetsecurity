@@ -10,13 +10,13 @@ export class Account {
   }
 
   public signIn(request: SignInRequest) {
-    this.httpClient.get(this.accountApiUrl('/sign-in'), {
+    return this.httpClient.get(this.accountApiUrl('/sign-in'), {
       params: { email: request.email, password: request.password },
     });
   }
 
   public signUp(request: SignUpRequest) {
-    this.httpClient.post(this.accountApiUrl('/'), request);
+    return this.httpClient.post(this.accountApiUrl('/'), request);
   }
 }
 

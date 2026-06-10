@@ -1,0 +1,7 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-2">
+  <app-text-input type="email" placeholder="Email" formControlName="email" />
+
+  <app-text-input type="password" placeholder="Password" formControlName="password" />
+
+  <button type="submit" class="w-full bg-slate-900 text-white py-2 rounded-md">Sign In</button>
+</form>
