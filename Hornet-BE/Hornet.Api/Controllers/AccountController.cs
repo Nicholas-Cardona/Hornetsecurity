@@ -41,8 +41,8 @@ public class AccountController : ControllerBase
         }
     }
 
-    [HttpGet("sign-in", Name = "SignIn")]
-    public async Task<IActionResult> SignIn([FromQuery] SignInRequest request)
+    [HttpPost("sign-in", Name = "SignIn")]
+    public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
     {
         try
         {
