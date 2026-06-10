@@ -21,7 +21,8 @@
       "driver": "MySQL",
       "name": "hornetsecurity",
       "database": "hornetsecurity",
-      "username": "user"
+      "username": "user",
+      "askForPassword": true
     }
   ]
 }

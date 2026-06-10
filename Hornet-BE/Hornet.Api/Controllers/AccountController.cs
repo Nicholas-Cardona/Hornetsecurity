@@ -23,8 +23,8 @@ public class AccountController : ControllerBase
     {
         try
         {
-            UserEntity entity = await _service.SignUpUserAsync(request);
-            return Ok(entity);
+            await _service.SignUpUserAsync(request);
+            return Ok();
         }
         catch (ValidationException e)
         {
@@ -51,7 +51,6 @@ public class AccountController : ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
             switch (e)
             {
                 // Not providing any additional information to the user on purpose, just to not expose why the login failed to

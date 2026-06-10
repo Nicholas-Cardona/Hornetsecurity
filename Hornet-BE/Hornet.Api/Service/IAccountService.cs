@@ -5,6 +5,6 @@ namespace Hornet.Api.Service;
 
 public interface IAccountService
 {
-    Task<UserEntity> SignUpUserAsync(SignUpRequest request);
-    Task<UserEntity> SignInUserAsync(SignInRequest request);
+    Task SignUpUserAsync(SignUpRequest request);
+    Task SignInUserAsync(SignInRequest request);
 }

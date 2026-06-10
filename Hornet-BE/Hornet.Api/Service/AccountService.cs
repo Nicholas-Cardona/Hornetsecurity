@@ -1,61 +1,84 @@
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Security.Authentication;
-using Hornet.Data;
 using Hornet.Data.Entities;
 using Hornet.Data.Mappers;
 using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Ocsp;
+
 
 namespace Hornet.Api.Service;
 
 public class AccountService : IAccountService
 {
-    private readonly AppDbContext _context;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly PasswordHasher<UserEntity> passwordHasher = new();
 
-    public AccountService(AppDbContext context)
+    public AccountService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
     {
-        _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
-    public async Task<UserEntity> SignUpUserAsync(SignUpRequest request)
+    public async Task SignUpUserAsync(SignUpRequest request)
     {
         if (request.Password != request.PasswordConfirm) throw new ArgumentException("Mismatch between Password and Confirm Password");
 
-        if (!IsValidPassword(request.Password)) throw new ValidationException("Password not strong enough, make sure that it has a special character and an uppercase letter");
-
         UserEntity user = UserMapper.FromRequest(request);
 
-        string hashedPassword = passwordHasher.HashPassword(user, user.Password);
+        var result = await _userManager.CreateAsync(user, request.Password);
 
-        user.Password = hashedPassword;
-
-        var entry = await _context.Users.AddAsync(user);
-
-        await _context.SaveChangesAsync();
-
-        return entry.Entity;
+        if (!result.Succeeded)
+        {
+            ParseIdentityErrors(result.Errors);
+        }
     }
 
-    public async Task<UserEntity> SignInUserAsync(SignInRequest request)
+    public async Task SignInUserAsync(SignInRequest request)
     {
-        UserEntity? dbUser = await _context.Users.FirstOrDefaultAsync(i => i.Email == request.Email);
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (dbUser == null) throw new KeyNotFoundException("User with the given email was not found");
+        if (user == null)
+            throw new InvalidCredentialException("Invalid login");
 
-        var result = passwordHasher.VerifyHashedPassword(dbUser, dbUser.Password, request.Password);
+        var result = await _signInManager.PasswordSignInAsync(
+            user,
+            request.Password,
+            request.RememberMe,
+            lockoutOnFailure: false);
 
-        if (result != PasswordVerificationResult.Success) throw new InvalidCredentialException("Invalid Password");
-
-        return dbUser;
+        if (!result.Succeeded)
+        {
+            throw new InvalidCredentialException("Invalid login");
+        }
     }
 
-    private bool IsValidPassword(string password)
+    private void ParseIdentityErrors(IEnumerable<IdentityError> errors)
     {
-        return password.Length > 8 && password.Any(char.IsUpper) && password.Any(char.IsLower) && password.Any(char.IsLetterOrDigit);
+        foreach (var error in errors)
+        {
+            switch (error.Code)
+            {
+                case "PasswordRequiresUpper":
+                    throw new ValidationException("Requires Uppercase");
+
+                case "DuplicateUserName":
+                    throw new ValidationException("Username already in use");
+
+                case "PasswordRequiresNonAlphanumeric":
+                    throw new ValidationException("Missing Special Character");
+
+                case "PasswordRequiresLower":
+                    throw new ValidationException("Missing Lowercase");
+
+                case "PasswordTooShort":
+                    throw new ValidationException("Password is too short");
+
+                case "DuplicateEmail":
+                    throw new ValidationException("Email already in use");
+            }
+        }
+
+        throw new Exception("Invalid Sign Up");
     }
 }

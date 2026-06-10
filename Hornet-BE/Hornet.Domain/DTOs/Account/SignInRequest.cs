@@ -14,4 +14,5 @@ public class SignInRequest
         set => _email = value.Trim();
     }
     public required string Password { get; set; }
+    public required bool RememberMe {get;set;}
 }

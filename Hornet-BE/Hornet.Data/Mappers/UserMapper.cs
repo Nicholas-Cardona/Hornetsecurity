@@ -13,6 +13,7 @@ public static class UserMapper
     {
         return new UserEntity
         {
+            UserName = request.Email,
             Email = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
