@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.Security.Authentication;
 using Hornet.Data;
 using Hornet.Data.Entities;
@@ -6,6 +8,7 @@ using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Ocsp;
 
 namespace Hornet.Api.Service;
 
@@ -22,6 +25,8 @@ public class AccountService : IAccountService
     public async Task<UserEntity> SignUpUserAsync(SignUpRequest request)
     {
         if (request.Password != request.PasswordConfirm) throw new ArgumentException("Mismatch between Password and Confirm Password");
+
+        if (!IsValidPassword(request.Password)) throw new ValidationException("Password not strong enough, make sure that it has a special character and an uppercase letter");
 
         UserEntity user = UserMapper.FromRequest(request);
 
@@ -47,5 +52,10 @@ public class AccountService : IAccountService
         if (result != PasswordVerificationResult.Success) throw new InvalidCredentialException("Invalid Password");
 
         return dbUser;
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        return password.Length > 8 && password.Any(char.IsUpper) && password.Any(char.IsLower) && password.Any(char.IsLetterOrDigit);
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Hornet.Api.Service;
 using Hornet.Data.Entities;
@@ -24,6 +25,10 @@ public class AccountController : ControllerBase
         {
             UserEntity entity = await _service.SignUpUserAsync(request);
             return Ok(entity);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
         }
         catch (ArgumentException)
         {
