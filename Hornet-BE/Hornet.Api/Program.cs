@@ -20,7 +20,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 }
 );
 
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ISpaceXService, SpaceXService>();
 
 builder.Services.AddIdentity<UserEntity, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
