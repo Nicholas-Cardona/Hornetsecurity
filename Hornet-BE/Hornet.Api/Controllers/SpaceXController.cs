@@ -57,4 +57,18 @@ public class SpaceXController : ControllerBase
         }
     }
 
+    [HttpGet("last", Name = "Most Recent Launch")]
+    public async Task<IActionResult> GetMostRecentLaunch()
+    {
+        try
+        {
+            var launch = await _spaceXService.GetLatestLaunchAsync();
+
+            return Ok(launch);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
 }

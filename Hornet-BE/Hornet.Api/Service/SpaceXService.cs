@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ public class SpaceXService : ISpaceXService
             ["offset"] = offset.ToString(),
             ["ordering"] = ordering,
             ["limit"] = size.ToString(),
-            ["lsp"] = "spacex"
+            ["lsp__name"] = "SpaceX"
         };
 
         string endpoint = mode switch
@@ -48,7 +49,6 @@ public class SpaceXService : ISpaceXService
         var value = await _httpClient.GetAsync(url);
 
         var json = await value.Content.ReadAsStringAsync();
-        Console.WriteLine(json);
 
         try
         {
@@ -65,5 +65,14 @@ public class SpaceXService : ISpaceXService
         {
             throw new Exception("Failed to deserialize SpaceX response", ex);
         }
+    }
+
+    public async Task<SpaceXLaunch> GetLatestLaunchAsync()
+    {
+        var launches = await GetLaunchesAsync(LaunchMode.Past, 1, 1, true);
+
+        var lastLaunch = launches.Results.FirstOrDefault() ?? throw new KeyNotFoundException("No launches found");
+
+        return lastLaunch;
     }
 }
