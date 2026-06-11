@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Policy;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Hornet.Domain.DTOs.SpaceX;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hornet.Api.Service;
 
 public class SpaceXService : ISpaceXService
 {
     private readonly HttpClient _httpClient;
-    private readonly string BaseUrl = "https://ll.thespacedevs.com/2.3.0/";
+    private readonly string BaseUrl = "https://lldev.thespacedevs.com/2.3.0/";
     public SpaceXService(HttpClient httpClient)
     {
         _httpClient = httpClient;
@@ -19,17 +21,49 @@ public class SpaceXService : ISpaceXService
         _httpClient.BaseAddress = uri;
     }
 
-    public async Task<SpaceXLaunchesResult> GetLatestLaunchesAsync()
+    public async Task<SpaceXLaunchesResult> GetLaunchesAsync(LaunchMode mode, int page, int size, bool desc)
     {
-        var value = await _httpClient.GetAsync("launches?mode=list");
+        if (page < 1 || size < 1) throw new ArgumentException("Page and Size must both be larger than 0");
+
+        int offset = (page - 1) * size;
+        string ordering = desc ? "-net" : "net";
+
+        Dictionary<string, string?> queryParams = new()
+        {
+            ["offset"] = offset.ToString(),
+            ["ordering"] = ordering,
+            ["limit"] = size.ToString(),
+            ["lsp"] = "spacex"
+        };
+
+        string endpoint = mode switch
+        {
+            LaunchMode.Upcoming => "launches/upcoming/",
+            LaunchMode.Past => "launches/previous/",
+            _ => "launches/"
+        };
+
+        string url = QueryHelpers.AddQueryString(endpoint, queryParams);
+
+        var value = await _httpClient.GetAsync(url);
 
         var json = await value.Content.ReadAsStringAsync();
+        Console.WriteLine(json);
 
-        var result = JsonSerializer.Deserialize<SpaceXLaunchesResult>(
-            json,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        try
+        {
+            var result = JsonSerializer.Deserialize<SpaceXLaunchesResult>(
+                json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
 
-        return result;
+            if (result == null) throw new Exception("Deserialization returned null");
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to deserialize SpaceX response", ex);
+        }
     }
 }

@@ -4,5 +4,5 @@ namespace Hornet.Api.Service;
 
 public interface ISpaceXService
 {
-    public Task<SpaceXLaunchesResult> GetLatestLaunchesAsync();
+    public Task<SpaceXLaunchesResult> GetLaunchesAsync(LaunchMode mode, int page, int size, bool desc);
 }

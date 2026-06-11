@@ -20,10 +20,41 @@ public class SpaceXController : ControllerBase
     }
 
     [HttpGet("latest", Name = "Latest Lunches")]
-    public async Task<SpaceXLaunchesResult> GetLatestLaunches()
+    public async Task<IActionResult> GetPastLaunches([FromQuery] GetLatestLaunchesRequest request)
     {
-        var res = await _spaceXService.GetLatestLaunchesAsync();
+        try
+        {
+            var res = await _spaceXService.GetLaunchesAsync(LaunchMode.Past, request.Page, request.Size, true);
 
-        return res;
+            return Ok(res);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest("One of the provided parameters was incorrect");
+        }
+        catch
+        {
+            return StatusCode(500, "Uncaught Error");
+        }
     }
+
+    [HttpGet("upcoming", Name = "Upcoming Lunches")]
+    public async Task<IActionResult> GetUpcomingLaunches([FromQuery] GetUpcomingLaunchesRequest request)
+    {
+        try
+        {
+            var res = await _spaceXService.GetLaunchesAsync(LaunchMode.Upcoming, request.Page, request.Size, false);
+
+            return Ok(res);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest("One of the provided parameters was incorrect");
+        }
+        catch
+        {
+            return StatusCode(500, "Uncaught Error");
+        }
+    }
+
 }
