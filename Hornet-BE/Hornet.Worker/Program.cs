@@ -1,11 +1,18 @@
 using Hornet.Api.Service;
+using Hornet.Worker.Services;
+using MySqlConnector;
 using Quartz;
 
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddScoped<ISpaceXService, SpaceXService>();
+builder.Services.AddScoped<ISpaceXSyncService, SpaceXSyncService>();
 builder.Services.AddHttpClient();
+
+
+string? cs = builder.Configuration.GetConnectionString("MySql") ?? throw new Exception("No Connection string");
+builder.Services.AddMySqlDataSource(cs);
 
 builder.Services.AddQuartz(q =>
 {

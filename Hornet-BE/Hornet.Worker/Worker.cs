@@ -1,15 +1,21 @@
+using System.Text;
 using Hornet.Api.Service;
 using Hornet.Data.Mappers;
 using Hornet.Domain.DTOs.SpaceX;
+using Hornet.Worker.Services;
+using MySqlConnector;
+using Org.BouncyCastle.Cms;
 using Quartz;
 
 public class SpaceXSyncJob : IJob
 {
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ISpaceXSyncService _spaceXSyncService;
 
-    public SpaceXSyncJob(IServiceScopeFactory scopeFactory)
+    public SpaceXSyncJob(IServiceScopeFactory scopeFactory, MySqlDataSource dataSource, ISpaceXSyncService spaceXSyncService)
     {
         _scopeFactory = scopeFactory;
+        _spaceXSyncService = spaceXSyncService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -18,17 +24,11 @@ public class SpaceXSyncJob : IJob
 
         var spaceXService = scope.ServiceProvider.GetRequiredService<ISpaceXService>();
 
-        var result = await spaceXService.GetLaunchesAsync(
-           LaunchMode.All,
-            page: 1,
-            size: 10,
-            desc: true
-        );
+        await _spaceXSyncService.SyncLatestLaunches();
+   }
 
-        foreach (var launch in result.Results)
-        {
-            var entity = LaunchMapper.ToEntity(launch);
-            Console.WriteLine(entity.Name);
-        }
+    private async void SaveRockets()
+    {
+
     }
 }
