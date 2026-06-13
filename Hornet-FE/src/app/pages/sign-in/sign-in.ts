@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { InputComponent } from '../../component/input/text-input/text-input';
+import { InputComponent } from '../../component/utils/input/text-input/text-input';
 
 @Component({
   selector: 'app-sign-in',

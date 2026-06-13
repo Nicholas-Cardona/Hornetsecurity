@@ -1,7 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-2">
-  <app-text-input type="email" placeholder="Email" formControlName="email" />
+<app-card-skeleton>
+  <h1 card-title>Sign Up</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+    <app-text-input type="email" placeholder="Email" formControlName="email" class="w-full" />
 
-  <app-text-input type="password" placeholder="Password" formControlName="password" />
+    <app-text-input type="password" placeholder="Password" formControlName="password" class="w-full" />
 
-  <button type="submit" class="w-full bg-slate-900 text-white py-2 rounded-md">Sign In</button>
-</form>
+    <app-form-button [disabled]="isDisabled">Sign Up</app-form-button>
+  </form>
+</app-card-skeleton>
