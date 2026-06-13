@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-// using Hornet.Api.Service;
+using Hornet.Api.Services;
 using Hornet.Domain.DTOs.SpaceX;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,31 +12,27 @@ namespace Hornet.Api.Controllers;
 [Route("/api/[controller]")]
 public class SpaceXController : ControllerBase
 {
-    // private readonly ISpaceXService _spaceXService;
+    private readonly ILaunchService  _launchService;
 
-    // public SpaceXController(ISpaceXService spaceXService)
-    // {
-    //     _spaceXService = spaceXService;
-    // }
+    public SpaceXController(ILaunchService launchService)
+    {
+        _launchService = launchService;
+    }
 
-    // [HttpGet("latest", Name = "Latest Lunches")]
-    // public async Task<IActionResult> GetPastLaunches([FromQuery] GetLatestLaunchesRequest request)
-    // {
-    //     try
-    //     {
-    //         var res = await _spaceXService.GetLaunchesAsync(LaunchMode.Past, request.Page, request.Size, true);
+    [HttpGet("latest", Name = "Latest Lunches")]
+    public async Task<IActionResult> GetPastLaunches([FromQuery] GetLatestLaunchesRequest request)
+    {
+        try
+        {
+            var res = await _launchService.GetLatestLaunchesAsync(request.Page, request.Size);
 
-    //         return Ok(res);
-    //     }
-    //     catch (ArgumentException)
-    //     {
-    //         return BadRequest("One of the provided parameters was incorrect");
-    //     }
-    //     catch
-    //     {
-    //         return StatusCode(500, "Uncaught Error");
-    //     }
-    // }
+            return Ok(res);
+        }
+        catch
+        {
+            return StatusCode(500, "Uncaught Error");
+        }
+    }
 
     // [HttpGet("upcoming", Name = "Upcoming Lunches")]
     // public async Task<IActionResult> GetUpcomingLaunches([FromQuery] GetUpcomingLaunchesRequest request)
@@ -57,18 +53,18 @@ public class SpaceXController : ControllerBase
     //     }
     // }
 
-    // [HttpGet("last", Name = "Most Recent Launch")]
-    // public async Task<IActionResult> GetMostRecentLaunch()
-    // {
-    //     try
-    //     {
-    //         var launch = await _spaceXService.GetLatestLaunchAsync();
+    [HttpGet("last", Name = "Most Recent Launch")]
+    public async Task<IActionResult> GetMostRecentLaunch()
+    {
+        try
+        {
+            var launch = await _launchService.GetLastLaunchAsync();
 
-    //         return Ok(launch);
-    //     }
-    //     catch
-    //     {
-    //         return StatusCode(500);
-    //     }
-    // }
+            return Ok(launch);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
 }
