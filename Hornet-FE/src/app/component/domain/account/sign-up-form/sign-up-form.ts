@@ -5,6 +5,7 @@ import { AccountService, SignUpRequest } from '../../../../services/core/account
 import { InputComponent } from '../../../utils/input/text-input/text-input';
 import { FormButton } from '../../../utils/input/form-button/form-button';
 import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -24,11 +25,23 @@ export class SignUpForm {
     lastName: new FormControl('', [Validators.required])
   });
 
+  private snackBar = inject(MatSnackBar)
+
   submit() {
     if (this.form.invalid) return;
-    this.isLoading = true;
-    
+
     const value = this.form.value
+
+    if (value.confirmPassword !== value.password) {
+      this.snackBar.open("Password and Confirm Password do NOT match", "CLOSE",
+        {
+          panelClass: ['toast-error']
+        }
+      )
+      return
+    }
+
+    this.isLoading = true
 
     const signUpRequest: SignUpRequest = {
       email: value.email!,
@@ -38,7 +51,7 @@ export class SignUpForm {
       confirmPassword: value.confirmPassword!
     }
 
-   this.account.signUp(signUpRequest).pipe(
+    this.account.signUp(signUpRequest).pipe(
       finalize(() => {
         this.isLoading = false;
       })
