@@ -1,10 +1,6 @@
 using System.Text;
-using Hornet.Api.Service;
-using Hornet.Data.Mappers;
-using Hornet.Domain.DTOs.SpaceX;
 using Hornet.Worker.Services;
 using MySqlConnector;
-using Org.BouncyCastle.Cms;
 using Quartz;
 
 public class SpaceXSyncJob : IJob

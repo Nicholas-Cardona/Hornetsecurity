@@ -1,6 +1,6 @@
 using Hornet.Domain.DTOs.SpaceX;
 
-namespace Hornet.Api.Service;
+namespace Hornet.Worker.Services;
 
 public interface ISpaceXService
 {

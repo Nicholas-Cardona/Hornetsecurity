@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
-using Hornet.Api.Service;
 using Hornet.Domain.DTOs.SpaceX;
 using MySqlConnector;
 using Org.BouncyCastle.Crypto.Prng;

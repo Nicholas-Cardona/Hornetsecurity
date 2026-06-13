@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
-using Hornet.Api.Service;
-using Hornet.Data.Entities;
+using Hornet.Api.Services;
 using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Mvc;
 

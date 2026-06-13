@@ -1,4 +1,4 @@
-using Hornet.Api.Service;
+using Hornet.Api.Services;
 using Hornet.Data;
 using Hornet.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ISpaceXService, SpaceXService>();
 
 builder.Services.AddIdentity<UserEntity, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()

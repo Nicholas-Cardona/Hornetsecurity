@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Hornet.Domain.DTOs.SpaceX;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Hornet.Api.Service;
+namespace Hornet.Worker.Services;
 
 public class SpaceXService : ISpaceXService
 {

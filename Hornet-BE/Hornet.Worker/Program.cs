@@ -1,4 +1,3 @@
-using Hornet.Api.Service;
 using Hornet.Worker.Services;
 using MySqlConnector;
 using Quartz;
@@ -25,7 +24,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SpaceXSyncTrigger")
         .StartNow()
         .WithSimpleSchedule(x => x
-            .WithInterval(TimeSpan.FromSeconds(10))
+            .WithInterval(TimeSpan.FromMinutes(5))
             .RepeatForever()
         )
     );

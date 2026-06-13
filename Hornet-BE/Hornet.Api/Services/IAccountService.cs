@@ -1,7 +1,7 @@
 using Hornet.Data.Entities;
 using Hornet.Domain.DTOs.Account;
 
-namespace Hornet.Api.Service;
+namespace Hornet.Api.Services;
 
 public interface IAccountService
 {

@@ -6,7 +6,7 @@ using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace Hornet.Api.Service;
+namespace Hornet.Api.Services;
 
 public class AccountService : IAccountService
 {
