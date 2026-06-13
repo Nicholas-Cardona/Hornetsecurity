@@ -1,5 +1,5 @@
 namespace Hornet.Domain.DTOs.SpaceX;
-public class GetLastLaunchDto
+public class GetLaunchDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

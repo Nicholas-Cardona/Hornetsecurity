@@ -28,8 +28,9 @@ public class SpaceXController : ControllerBase
 
             return Ok(res);
         }
-        catch
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             return StatusCode(500, "Uncaught Error");
         }
     }

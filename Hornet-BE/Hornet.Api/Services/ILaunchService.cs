@@ -6,7 +6,7 @@ namespace Hornet.Api.Services;
 public interface ILaunchService
 {
      public Task<LaunchEntity?> GetLaunchByIdAsync(int id);
-     public Task<GetLastLaunchDto?> GetLastLaunchAsync();
-     public Task<IEnumerable<LaunchEntity>> GetLatestLaunchesAsync(int page, int size);
+     public Task<GetLaunchDto?> GetLastLaunchAsync();
+     public Task<IEnumerable<GetLaunchDto>> GetLatestLaunchesAsync(int page, int size);
      
 }

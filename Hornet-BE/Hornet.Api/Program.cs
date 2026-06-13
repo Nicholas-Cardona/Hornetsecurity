@@ -3,6 +3,7 @@ using Hornet.Data;
 using Hornet.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 string? cs = builder.Configuration.GetConnectionString("MySql") ?? throw new Exception("No Connection string");
+builder.Services.AddMySqlDataSource(cs);
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySQL(cs, b => b.MigrationsAssembly("Hornet.Data"));
