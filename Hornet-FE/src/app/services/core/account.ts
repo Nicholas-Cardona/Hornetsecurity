@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
 @Service()
-export class Account {
+export class AccountService {
   private httpClient = inject(HttpClient);
 
   private accountApiUrl(endpoint: string) {
@@ -10,13 +10,13 @@ export class Account {
   }
 
   public signIn(request: SignInRequest) {
-    return this.httpClient.get(this.accountApiUrl('/sign-in'), {
+    return this.httpClient.post(this.accountApiUrl('sign-in'), {
       params: { email: request.email, password: request.password },
     });
   }
 
   public signUp(request: SignUpRequest) {
-    return this.httpClient.post(this.accountApiUrl('/'), request);
+    return this.httpClient.post(this.accountApiUrl('sign-up'), request);
   }
 }
 
