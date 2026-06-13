@@ -10,9 +10,7 @@ export class AccountService {
   }
 
   public signIn(request: SignInRequest) {
-    return this.httpClient.post(this.accountApiUrl('sign-in'), {
-      params: { email: request.email, password: request.password },
-    });
+    return this.httpClient.post(this.accountApiUrl('sign-in'), request);
   }
 
   public signUp(request: SignUpRequest) {
@@ -25,10 +23,11 @@ export interface SignUpRequest {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  passwordConfirm: string;
 }
 
 export interface SignInRequest {
   email: string;
   password: string;
+  rememberMe:boolean
 }

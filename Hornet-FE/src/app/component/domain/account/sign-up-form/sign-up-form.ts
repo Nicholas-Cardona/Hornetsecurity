@@ -48,7 +48,7 @@ export class SignUpForm {
       firstName: value.firstName!,
       lastName: value.lastName!,
       password: value.password!,
-      confirmPassword: value.confirmPassword!
+      passwordConfirm: value.confirmPassword!
     }
 
     this.account.signUp(signUpRequest).pipe(

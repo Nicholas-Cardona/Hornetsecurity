@@ -5,11 +5,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormButton } from "../../../utils/input/form-button/form-button";
 import { AccountService, SignInRequest } from '../../../../services/core/account';
 import { finalize } from 'rxjs';
+import { MatCheckbox } from "@angular/material/checkbox";
 
 
 @Component({
   selector: 'app-sign-in-form',
-  imports: [CardSkeleton, CustomInput, FormButton, ReactiveFormsModule],
+  imports: [CardSkeleton, CustomInput, FormButton, ReactiveFormsModule, MatCheckbox],
   templateUrl: './sign-in-form.html',
   styleUrl: './sign-in-form.css',
 })
@@ -17,6 +18,7 @@ export class SignInForm {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
+    rememberMe: new FormControl(true)
   });
 
   isLoading = false;
@@ -32,7 +34,8 @@ submit(){
 
     const signInRequest: SignInRequest = {
       email: value.email!,
-      password: value.password!
+      password: value.password!,
+      rememberMe: value.rememberMe!
     }
 
     this.account.signIn(signInRequest).pipe(
