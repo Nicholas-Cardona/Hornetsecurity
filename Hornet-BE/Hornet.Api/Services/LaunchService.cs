@@ -57,12 +57,15 @@ public class LaunchService : ILaunchService
     }
 
     public async Task<IEnumerable<GetLaunchDto>> GetLatestLaunchesAsync(
+        LaunchMode launchMode,
       int page,
-      int size)
+      int size
+      )
     {
         var offset = (page - 1) * size;
 
-        const string sql = """
+        StringBuilder sql = new();
+        sql.Append("""
         SELECT
             l.Id,
             l.Name,
@@ -90,14 +93,34 @@ public class LaunchService : ILaunchService
         LEFT JOIN LaunchServiceProviders lsp
         ON lsp.Id = l.LaunchServiceProviderId
 
+      
+        """);
+
+        switch (launchMode)
+        {
+            case LaunchMode.Past:
+            {
+                sql.Append("WHERE l.Net <= UTC_TIMESTAMP() ");
+                break;
+            }
+            case LaunchMode.Upcoming:
+            {
+               sql.Append("WHERE l.Net >= UTC_TIMESTAMP() ");
+                break; 
+            }
+            default:
+            break;
+        }
+
+        sql.Append(@"  
         ORDER BY l.Net DESC
-        LIMIT @size OFFSET @offset;
-        """;
+        LIMIT @size OFFSET @offset;"
+        );
 
         await using var conn = await _dataSource.OpenConnectionAsync();
         await using var cmd = conn.CreateCommand();
 
-        cmd.CommandText = sql;
+        cmd.CommandText = sql.ToString();
         cmd.Parameters.AddWithValue("@size", size);
         cmd.Parameters.AddWithValue("@offset", offset);
 
@@ -111,25 +134,25 @@ public class LaunchService : ILaunchService
             {
                 Id = reader.GetGuid("Id"),
                 Name = reader.GetString("Name"),
-                Net =  reader.GetDateTime("Net"),
+                Net = reader.GetDateTime("Net"),
                 Rocket = new RocketDto
                 {
-                  Id = reader.GetInt32("RocketId"),
-                  Name = reader.GetString("RocketName"),
-                  Variant = reader.GetString("RocketVariant")  
+                    Id = reader.GetInt32("RocketId"),
+                    Name = reader.GetString("RocketName"),
+                    Variant = reader.GetString("RocketVariant")
                 },
                 ImageUrl = reader.GetString("ImageUrl"),
                 LaunchServiceProvider = new LaunchServiceProviderDto
                 {
-                  Id = reader.GetInt32("LaunchServiceProviderId"),
-                  Name = reader.GetString("LSPName"),
-                  
+                    Id = reader.GetInt32("LaunchServiceProviderId"),
+                    Name = reader.GetString("LSPName"),
+
                 },
                 LaunchStatus = new LaunchStatusDto
                 {
-                Id = reader.GetInt32("StatusId") ,
-                Description = reader.GetString("LaunchStatusDescription"),
-                Name = reader.GetString("LaunchStatusName")
+                    Id = reader.GetInt32("StatusId"),
+                    Description = reader.GetString("LaunchStatusDescription"),
+                    Name = reader.GetString("LaunchStatusName")
                 },
                 WindowEnd = reader.GetDateTime("WindowEnd"),
             });
@@ -137,6 +160,4 @@ public class LaunchService : ILaunchService
 
         return launches;
     }
-
-
 }

@@ -24,7 +24,7 @@ public class SpaceXController : ControllerBase
     {
         try
         {
-            var res = await _launchService.GetLatestLaunchesAsync(request.Page, request.Size);
+            var res = await _launchService.GetLatestLaunchesAsync(LaunchMode.Past, request.Page, request.Size);
 
             return Ok(res);
         }
