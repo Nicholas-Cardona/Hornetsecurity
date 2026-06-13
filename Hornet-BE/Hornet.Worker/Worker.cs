@@ -1,5 +1,6 @@
 using System.Text;
 using Hornet.Worker.Services;
+using Hornet.Domain.DTOs.SpaceX;
 using MySqlConnector;
 using Quartz;
 
@@ -7,10 +8,12 @@ public class SpaceXSyncJob : IJob
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ISpaceXSyncService _spaceXSyncService;
+    private readonly ISpaceXService _spaceXService;
 
-    public SpaceXSyncJob(IServiceScopeFactory scopeFactory, MySqlDataSource dataSource, ISpaceXSyncService spaceXSyncService)
+    public SpaceXSyncJob(IServiceScopeFactory scopeFactory, ISpaceXService spaceXService, ISpaceXSyncService spaceXSyncService)
     {
         _scopeFactory = scopeFactory;
+        _spaceXService = spaceXService;
         _spaceXSyncService = spaceXSyncService;
     }
 
@@ -18,13 +21,15 @@ public class SpaceXSyncJob : IJob
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var spaceXService = scope.ServiceProvider.GetRequiredService<ISpaceXService>();
+        var upcomingTask = _spaceXService.GetLaunchesAsync(
+            LaunchMode.Upcoming, 1, 20, true);
 
-        await _spaceXSyncService.SyncLatestLaunches();
-   }
+        var pastTask = _spaceXService.GetLaunchesAsync(
+            LaunchMode.Past, 1, 20, true);
 
-    private async void SaveRockets()
-    {
+        await Task.WhenAll(upcomingTask, pastTask);
 
+        await _spaceXSyncService.SyncLaunches(upcomingTask.Result);
+        await _spaceXSyncService.SyncLaunches(pastTask.Result);
     }
 }
