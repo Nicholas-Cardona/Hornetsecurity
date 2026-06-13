@@ -13,14 +13,12 @@ import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
 })
 export class SignIn {
   private account = inject(Account);
-
-  isDisabled = true;
-
+  
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
-
+  
   submit() {
     if (this.form.invalid) return;
 

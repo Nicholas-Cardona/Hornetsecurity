@@ -5,6 +5,6 @@
 
     <app-text-input type="password" placeholder="Password" formControlName="password" class="w-full" />
 
-    <app-form-button [disabled]="isDisabled">Sign Up</app-form-button>
+    <app-form-button [disabled]="form.invalid">Sign Up</app-form-button>
   </form>
 </app-card-skeleton>
