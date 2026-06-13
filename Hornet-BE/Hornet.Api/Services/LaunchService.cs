@@ -56,12 +56,14 @@ public class LaunchService : ILaunchService
         .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<GetLaunchDto>> GetLatestLaunchesAsync(
-        LaunchMode launchMode,
+    public async Task<IEnumerable<GetLaunchDto>> GetLaunchesAsync(
+      LaunchMode launchMode,
       int page,
       int size
       )
     {
+        if (page <= 0 || size <= 0) throw new ArgumentException("Both page and size need to be larget than 1");
+
         var offset = (page - 1) * size;
 
         StringBuilder sql = new();
@@ -99,17 +101,17 @@ public class LaunchService : ILaunchService
         switch (launchMode)
         {
             case LaunchMode.Past:
-            {
-                sql.Append("WHERE l.Net <= UTC_TIMESTAMP() ");
-                break;
-            }
+                {
+                    sql.Append("WHERE l.Net <= UTC_TIMESTAMP() ");
+                    break;
+                }
             case LaunchMode.Upcoming:
-            {
-               sql.Append("WHERE l.Net >= UTC_TIMESTAMP() ");
-                break; 
-            }
+                {
+                    sql.Append("WHERE l.Net >= UTC_TIMESTAMP() ");
+                    break;
+                }
             default:
-            break;
+                break;
         }
 
         sql.Append(@"  
@@ -159,5 +161,41 @@ public class LaunchService : ILaunchService
         }
 
         return launches;
+    }
+
+    public async Task<int> GetLaunchesCount(LaunchMode mode)
+    {
+        StringBuilder sql = new();
+
+        sql.Append(@"
+            SELECT COUNT(*)
+            FROM Launches
+           ");
+
+        switch (mode)
+        {
+            case LaunchMode.Past:
+                {
+                    sql.Append("WHERE Net <= UTC_TIMESTAMP();");
+                    break;
+                }
+            case LaunchMode.Upcoming:
+                {
+                    sql.Append("WHERE Net >= UTC_TIMESTAMP();");
+                    break;
+                }
+            default:
+                sql.Append(";");
+                break;
+        }
+
+        await using var conn = await _dataSource.OpenConnectionAsync();
+        await using var cmd = conn.CreateCommand();
+
+        cmd.CommandText = sql.ToString();
+
+     var result = await cmd.ExecuteScalarAsync();
+
+     return Convert.ToInt32(result);
     }
 }
