@@ -1,14 +1,14 @@
 <app-card-skeleton>
   <h1 card-title>Sign Up</h1>
   <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
-    <app-text-input type="text" placeholder="First Name" formControlName="firstName" class="w-full" label="First Name" />
-    <app-text-input type="text" placeholder="Last Name" formControlName="lastName" class="w-full" label="Last Name"/>
+    <app-custom-input type="text" placeholder="First Name" formControlName="firstName" class="w-full" label="First Name" />
+    <app-custom-input type="text" placeholder="Last Name" formControlName="lastName" class="w-full" label="Last Name"/>
 
-    <app-text-input type="email" placeholder="Email" formControlName="email" class="w-full" label="Email" />
+    <app-custom-input type="email" placeholder="Email" formControlName="email" class="w-full" label="Email" />
 
-    <app-text-input type="password" placeholder="Password" formControlName="password" class="w-full" label="Password" />
+    <app-custom-input type="password" placeholder="Password" formControlName="password" class="w-full" label="Password" />
 
-    <app-text-input type="password" placeholder="Confirm Password" formControlName="confirmPassword" class="w-full" label="Confirm Password"/>
+    <app-custom-input type="password" placeholder="Confirm Password" formControlName="confirmPassword" class="w-full" label="Confirm Password"/>
 
     <app-form-button [disabled]="form.invalid">Sign Up</app-form-button>
   </form>

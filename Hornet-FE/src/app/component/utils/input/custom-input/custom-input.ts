@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-text-input',
+  selector: 'app-custom-input',
   imports: [],
-  templateUrl: './text-input.html',
-  styleUrl: './text-input.css',
+  templateUrl: './custom-input.html',
+  styleUrl: './custom-input.css',
 })
-export class InputComponent {
+export class CustomInput {
   @Input() value = '';
   @Input() placeholder = '';
   @Input() label = '';

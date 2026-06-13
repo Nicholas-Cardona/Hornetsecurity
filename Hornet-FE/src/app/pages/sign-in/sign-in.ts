@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { InputComponent } from '../../component/utils/input/text-input/text-input';
+import { SignInForm } from "../../component/domain/account/sign-in-form/sign-in-form";
 
 @Component({
   selector: 'app-sign-in',
-  imports: [RouterLink, InputComponent],
+  imports: [RouterLink, SignInForm],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.css',
 })

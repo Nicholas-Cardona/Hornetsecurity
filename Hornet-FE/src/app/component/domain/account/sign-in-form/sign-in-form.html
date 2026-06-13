@@ -1,0 +1,10 @@
+<app-card-skeleton>
+  <h1 card-title>Sign Up</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+    <app-custom-input type="email" placeholder="Email" formControlName="email" class="w-full" label="Email" />
+
+    <app-custom-input type="password" placeholder="Password" formControlName="password" class="w-full" label="Password" />
+
+    <app-form-button [disabled]="form.invalid">Sign In</app-form-button>
+  </form>
+</app-card-skeleton>

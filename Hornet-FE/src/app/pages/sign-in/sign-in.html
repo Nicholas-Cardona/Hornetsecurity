@@ -1,6 +1,13 @@
-<div>
-  <p>sign-in works!</p>
-  <a routerLink="/">Go Back!</a>
-  {{ value1 }}
-  <app-text-input [(value)]="value1" placeholder="Name" label="Some Label" />
+<div class="flex min-h-dvh flex-col items-center justify-center px-4 lg:justify-center">
+  <app-sign-in-form class="w-full max-w-md" />
+
+  <p class="mt-4 text-sm text-slate-600">
+    Already have an account?
+    <a
+      routerLink="/sign-up"
+      class="font-medium text-slate-900 hover:underline"
+    >
+      Sign up
+    </a>
+  </p>
 </div>
