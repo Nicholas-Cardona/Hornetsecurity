@@ -24,7 +24,7 @@ export class Dash {
   }
 
  handleChangeLatestPage(p:number){
-    this.upcomingLauncesPage.set(p)
+    this.latestLaunchesPage.set(p)
   }
 
   latestLaunches = injectQuery(() => ({
@@ -44,7 +44,7 @@ export class Dash {
   }));
 
   upcomingLaunchesCount = injectQuery(() => ({
-    queryKey: ['upcoming-launches-count'],
+    queryKey: ['upcoming-launches-count', 'upcoming'],
     queryFn:()=>
       lastValueFrom(
         this.launchService.getLaunchesCount(LaunchMode.upcoming)
@@ -53,10 +53,10 @@ export class Dash {
   }))
 
    latestLaunchesCount = injectQuery(() => ({
-    queryKey: ['upcoming-launches-count'],
+    queryKey: ['upcoming-launches-count', 'past'],
     queryFn:()=>
       lastValueFrom(
-        this.launchService.getLaunchesCount(LaunchMode.upcoming)
+        this.launchService.getLaunchesCount(LaunchMode.past)
       )
   }))
 }
