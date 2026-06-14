@@ -6,7 +6,9 @@
   </header>
 
   <!-- Grid -->
+<div class="flex h-full overflow-hidden">
   @if (launches.length) {
+    
     <div class="launch-grid">
       @for (launch of launches; track launch.id) {
         <app-launch [launch]="launch" />
@@ -15,7 +17,7 @@
   } @else {
     <p class="empty-state">No launches found.</p>
   }
-
+</div>
   <!-- Pagination -->
   @if (totalPages > 1) {
     <nav class="pagination" aria-label="Pagination">

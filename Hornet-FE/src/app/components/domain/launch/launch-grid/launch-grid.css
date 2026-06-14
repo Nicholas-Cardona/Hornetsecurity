@@ -39,7 +39,8 @@
     gap: 16px;
     margin-bottom: 28px;
     overflow: auto;
-    max-height: inherit;
+    max-height: 100%;
+    height: min-content;
 }
 
 @media (min-width: 640px) {
