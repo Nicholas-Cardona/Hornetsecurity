@@ -5,6 +5,7 @@ import { Dashboard } from '@pages/dashboard/dashboard';
 import { Latest } from '@pages/dashboard/latest/latest';
 import { Upcoming } from '@pages/dashboard/upcoming/upcoming';
 import { Last } from '@pages/dashboard/last/last';
+import { ById } from '@pages/dashboard/by-id/by-id';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,10 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'last'
+      },
+      {
+        path: "launch/:id",
+        component: ById
       },
       {
         path: 'latest',

@@ -1,14 +1,13 @@
 @if (launch) {
-  <!-- ================= REAL CARD ================= -->
   <div
     class="max-w-3xl mx-auto rounded-xl h-full overflow-hidden shadow-lg
            bg-white dark:bg-slate-900
            border border-slate-200 dark:border-slate-800">
 
-    <!-- Image -->
     <div class="relative h-56 bg-slate-100 dark:bg-slate-800">
       @if (launch.imageUrl) {
         <img
+        [routerLink]="['/dash/launch', launch.id]"
           [src]="launch.imageUrl"
           [alt]="launch.name"
           class="h-full w-full object-cover"
@@ -18,8 +17,6 @@
           No image available
         </div>
       }
-
-      <!-- Status badge -->
       <span
         class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold"
         [ngClass]="{
@@ -33,12 +30,11 @@
       </span>
     </div>
 
-    <!-- Content -->
     <div class="p-6 space-y-4">
       <div>
-        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">
+        <a [routerLink]="['/dash/launch', launch.id]" class="text-xl font-bold text-slate-900 dark:text-slate-100">
           {{ launch.name }}
-        </h2>
+        </a>
 
         @if (launch.slug) {
           <p class="text-sm text-slate-500">
@@ -80,7 +76,7 @@
               {{ launch.windowStart | date: 'medium' }}
               @if (launch.windowEnd) {
                 <span>
-                  – {{ launch.windowEnd | date: 'medium' }}
+                  - {{ launch.windowEnd | date: 'medium' }}
                 </span>
               }
             } @else {
@@ -100,19 +96,15 @@
       </div>
     </div>
   </div>
-
 } @else {
-  <!-- ================= SKELETON ================= -->
   <div
     class="max-w-3xl mx-auto rounded-xl overflow-hidden
            bg-white dark:bg-slate-900
            border border-slate-200 dark:border-slate-800
            animate-pulse">
 
-    <!-- Image skeleton -->
     <div class="h-56 bg-slate-200 dark:bg-slate-800"></div>
 
-    <!-- Content skeleton -->
     <div class="p-6 space-y-4">
       <div class="space-y-2">
         <div class="h-5 w-3/4 rounded bg-slate-200 dark:bg-slate-700"></div>

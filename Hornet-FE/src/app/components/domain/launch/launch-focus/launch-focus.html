@@ -1,0 +1,63 @@
+@if(launch){
+<div class="h-full overflow-hidden">
+  <div
+    class="relative flex h-full items-end bg-cover bg-center"
+    [ngStyle]="{ 'background-image': 'url(' + launch.imageUrl + ')' }"
+  >
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 w-full px-6 pb-10 md:px-12">
+      <div class="max-w-4xl text-white">
+        <!-- Titles -->
+        <h1 class="text-4xl font-bold leading-tight md:text-5xl">
+          {{ launch.name }}
+        </h1>
+
+        <h2 class="mt-1 text-lg text-gray-300">
+          {{ launch.slug }}
+        </h2>
+
+        <h3 class="mt-1 text-sm tracking-wide text-gray-400">
+          {{ launch.launchServiceProvider.name }}
+        </h3>
+
+        <!-- Metadata card -->
+        <div
+          class="mt-6 grid gap-4 rounded-xl bg-black/50 p-6 text-sm backdrop-blur-md md:grid-cols-2"
+        >
+          <div>
+            <span class="block text-gray-400">Launch Status</span>
+            <span class="font-medium">{{ launch.launchStatus.name }}</span>
+          </div>
+
+          <div>
+            <span class="block text-gray-400">Departure Time</span>
+            <span class="font-medium">{{ launchNet }}</span>
+          </div>
+
+          <div>
+            <span class="block text-gray-400">Window Start</span>
+            <span class="font-medium">{{ launch.windowStart }}</span>
+          </div>
+
+          <div>
+            <span class="block text-gray-400">Window End</span>
+            <span class="font-medium">{{ launch.windowEnd }}</span>
+          </div>
+
+          <div class="md:col-span-2">
+            <span class="block text-gray-400">Rocket</span>
+            <span class="font-medium">
+              {{ launch.rocket.name }} {{ launch.rocket.variant }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+Loading...
+}
