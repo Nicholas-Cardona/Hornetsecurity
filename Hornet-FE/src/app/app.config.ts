@@ -8,7 +8,7 @@ import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-exper
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideTanStackQuery(new QueryClient()),
+    provideTanStackQuery(new QueryClient({defaultOptions: {queries: {retry: false}}})),
     provideRouter(routes),
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

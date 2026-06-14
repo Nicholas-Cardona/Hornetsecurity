@@ -1,0 +1,66 @@
+<section class="space-y-6">
+  <!-- Title -->
+  <header class="flex items-center justify-between">
+    <h2 class="text-2xl font-semibold tracking-tight">
+      {{ title }}
+    </h2>
+    <p class="text-sm text-gray-500">
+      Page {{ page }} of {{ totalPages() }}
+    </p>
+  </header>
+
+  <!-- Grid -->
+  @if (launches.length) {
+    <div
+      class="grid gap-6
+             grid-cols-1
+             sm:grid-cols-2
+             lg:grid-cols-3
+             xl:grid-cols-4"
+    >
+      @for (launch of launches; track launch.id) {
+        <app-launch [launch]="launch" />
+      }
+    </div>
+  } @else {
+    <p class="text-center text-gray-500 py-12">
+      No launches found.
+    </p>
+  }
+
+  <!-- Pagination -->
+  @if (totalPages() > 1) {
+    <nav class="flex items-center justify-center gap-2 pt-4">
+      <button
+        class="px-3 py-2 rounded-lg border text-sm
+               disabled:opacity-40"
+        (click)="prev()"
+        [disabled]="page === 1"
+      >
+        Prev
+      </button>
+
+      @for (p of [].constructor(totalPages()); let i = $index; track i) {
+        <button
+          class="px-3 py-2 rounded-lg border text-sm
+                 transition
+                 hover:bg-gray-100"
+          [class.bg-gray-900]="page === i + 1"
+          [class.text-white]="page === i + 1"
+          (click)="goTo(i + 1)"
+        >
+          {{ i + 1 }}
+        </button>
+      }
+
+      <button
+        class="px-3 py-2 rounded-lg border text-sm
+               disabled:opacity-40"
+        (click)="next()"
+        [disabled]="page === totalPages()"
+      >
+        Next
+      </button>
+    </nav>
+  }
+</section>

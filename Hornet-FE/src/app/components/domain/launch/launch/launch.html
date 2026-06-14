@@ -1,5 +1,5 @@
 <div
-    class="max-w-3xl mx-auto rounded-xl overflow-hidden shadow-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+    class="max-w-3xl mx-auto rounded-xl h-full overflow-hidden shadow-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
     <!-- Image -->
     <div class="relative h-56 bg-slate-100 dark:bg-slate-800">
         @if (launch.imageUrl){
@@ -12,8 +12,8 @@
 
         <!-- Status badge -->
         <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
-            'bg-green-100 text-green-800': launch.launchStatus.id === 1,
-            'bg-yellow-100 text-yellow-800': launch.launchStatus.id === 2,
+            'bg-green-100 text-green-800': launch.launchStatus.id === 3,
+            'bg-yellow-100 text-yellow-800': launch.launchStatus.id === 1,
             'bg-red-100 text-red-800': launch.launchStatus.id === 7 || launch.launchStatus.id === 4
         }">
             {{ launch.launchStatus.name }}

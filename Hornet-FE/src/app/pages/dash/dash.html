@@ -1,8 +1,14 @@
-@if (query.data(); as data){
-<div class="grid grid-cols-3 gap-3">
-
-    @for (launch of data; track launch.id;) {
-    <app-launch [launch]="launch" />
-    }
-</div>
+@if (upcomingLaunches.data() && upcomingLaunchesCount.data(); ) {
+  <app-launch-grid
+    title="Upcoming"
+    [launches]="upcomingLaunches.data()!"
+    [count]="upcomingLaunchesCount.data()!"
+    [page]="upcomingLauncesPage()"
+    [size]="pagingSize"
+    (pageChange)="handleChangeUpcomingPage($event)"
+  />
+} @else {
+  <p class="py-10 text-center text-gray-500">
+    Loading upcoming launches…
+  </p>
 }
