@@ -8,6 +8,7 @@ import { Launch } from '@services/core/launch/Launch';
   standalone: true,
   imports: [CommonModule, LaunchComponent],
   templateUrl: './launch-grid.html',
+  styleUrl: './launch-grid.css'
 })
 export class LaunchGridComponent {
   @Input({ required: true }) title = '';

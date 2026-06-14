@@ -9,5 +9,5 @@ import { Launch } from '@services/core/launch/Launch';
   styleUrl: './launch.css',
 })
 export class LaunchComponent {
-  @Input({required: true}) launch!: Launch 
+  @Input({required:false }) launch: Launch | undefined = undefined
 }
