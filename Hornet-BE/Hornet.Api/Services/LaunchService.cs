@@ -35,19 +35,20 @@ public class LaunchService : ILaunchService
             Net = l.Net,
             Rocket = new RocketDto
             {
-                Name = l.Rocket.Name,
-                Id = l.Rocket.Id,
-                Variant = l.Rocket.Variant
+                Name = l.Rocket != null ?  l.Rocket.Name : "N/A",
+                Id = l.Rocket != null ? l.Rocket.Id : 0,
+                Variant = l.Rocket != null ? l.Rocket.Variant : "N/A"
             },
             LaunchServiceProvider = new LaunchServiceProviderDto
             {
-                Id = l.LaunchServiceProvider.Id,
-                Name = l.LaunchServiceProvider.Name
+                Id = l.LaunchServiceProvider != null ? l.LaunchServiceProvider.Id : 0,
+                Name = l.LaunchServiceProvider != null ? l.LaunchServiceProvider.Name : "N/A"
             },
             LaunchStatus = new LaunchStatusDto
             {
-                Description = l.Status.Description,
-                Id = l.Status.Id
+                Description = l.Status != null ? l.Status.Description : "N/A",
+                Name = l.Status != null ? l.Status.Name : "N/A",
+                Id = l.Status !=null ? l.Status.Id : 0
             },
             ImageUrl = l.ImageUrl,
             WindowEnd = l.WindowEnd,
