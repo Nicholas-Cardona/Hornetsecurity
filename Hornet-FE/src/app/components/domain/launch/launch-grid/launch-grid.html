@@ -7,8 +7,8 @@
 
   <!-- Grid -->
 <div class="flex h-full overflow-hidden">
-  @if (launches.length) {
-    
+  @if (launches?.length) {
+
     <div class="launch-grid">
       @for (launch of launches; track launch.id) {
         <app-launch [launch]="launch" />

@@ -8,25 +8,35 @@ import { Launch } from './Launch';
 
 @Service()
 export class LaunchService {
-  private httpClient = inject(HttpClient)
+  private httpClient = inject(HttpClient);
 
   private accountApiUrl(endpoint: string) {
     return `/api/spacex/${endpoint}`;
   }
 
-  public getLatestLaunches(request: GetLatestLaunchesRequest){
-    return this.httpClient.get<Launch[]>(this.accountApiUrl("latest"), { params: { page: request.page, size: request.size } })
+  public getLaunch(id: string) {
+    return this.httpClient.get<Launch>(this.accountApiUrl('launch'), { params: { id } });
+  }
+
+  public getLatestLaunches(request: GetLatestLaunchesRequest) {
+    return this.httpClient.get<Launch[]>(this.accountApiUrl('latest'), {
+      params: { page: request.page, size: request.size },
+    });
   }
 
   public getLaunchesCount(launchMode: LaunchMode) {
-    return this.httpClient.get<number>(this.accountApiUrl("count"), { params: { mode: launchMode } })
+    return this.httpClient.get<number>(this.accountApiUrl('count'), {
+      params: { mode: launchMode },
+    });
   }
 
   public getUpcomingLaunches(request: GetUpcomingLaunchesRequest) {
-    return this.httpClient.get<Launch[]>(this.accountApiUrl("upcoming"), { params: { page: request.page, size: request.size } })
+    return this.httpClient.get<Launch[]>(this.accountApiUrl('upcoming'), {
+      params: { page: request.page, size: request.size },
+    });
   }
 
   public getLastLaunch() {
-    return this.httpClient.get<Launch>(this.accountApiUrl("last"))
+    return this.httpClient.get<Launch>(this.accountApiUrl('last'));
   }
 }
