@@ -1,0 +1,90 @@
+<div
+    class="max-w-3xl mx-auto rounded-xl overflow-hidden shadow-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+    <!-- Image -->
+    <div class="relative h-56 bg-slate-100 dark:bg-slate-800">
+        @if (launch.imageUrl){
+        <img [src]="launch.imageUrl" [alt]="launch.name" class="h-full w-full object-cover" />
+        } @else {
+        <div class="h-full flex items-center justify-center text-slate-400 text-sm">
+            No image available
+        </div>
+        }
+
+        <!-- Status badge -->
+        <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
+            'bg-green-100 text-green-800': launch.launchStatus.id === 1,
+            'bg-yellow-100 text-yellow-800': launch.launchStatus.id === 2,
+            'bg-red-100 text-red-800': launch.launchStatus.id === 7 || launch.launchStatus.id === 4
+        }">
+            {{ launch.launchStatus.name }}
+        </span>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-4">
+        <div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">
+                {{ launch.name }}
+            </h2>
+            @if (launch.slug){
+            <p class="text-sm text-slate-500">
+                {{ launch.slug }}
+            </p>
+            }
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+                <span class="font-medium text-slate-600 dark:text-slate-400">Rocket</span>
+                <p class="text-slate-900 dark:text-slate-200">
+                    {{ launch.rocket.name }}
+
+                    @if (launch.rocket.variant)
+                    {
+                    <span class="text-slate-500">
+                        ({{ launch.rocket.variant }})
+                    </span>
+                    }
+
+                </p>
+            </div>
+
+            <div>
+                <span class="font-medium text-slate-600 dark:text-slate-400">
+                    Provider
+                </span>
+                <p class="text-slate-900 dark:text-slate-200">
+                    {{ launch.launchServiceProvider.name }}
+                </p>
+            </div>
+
+            <div>
+                <span class="font-medium text-slate-600 dark:text-slate-400">
+                    Launch window
+                </span>
+                <p class="text-slate-900 dark:text-slate-200">
+
+                    @if (launch.windowStart){
+                    {{ launch.windowStart | date: 'medium' }}
+
+                    @if (launch.windowEnd){
+                    <span>
+                        - {{ launch.windowEnd | date: 'medium' }}
+                    </span>
+                    }
+                    }@else {
+                    To be determined
+                    }
+                </p>
+            </div>
+
+            <div>
+                <span class="font-medium text-slate-600 dark:text-slate-400">NET</span>
+                <p class="text-slate-900 dark:text-slate-200">
+                    {{ launch.net ? (launch.net | date:'medium') : 'TBD' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
