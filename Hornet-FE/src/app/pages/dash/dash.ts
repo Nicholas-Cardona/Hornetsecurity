@@ -23,7 +23,11 @@ export class Dash {
     this.upcomingLauncesPage.set(p)
   }
 
-  latesetLaunches = injectQuery(() => ({
+ handleChangeLatestPage(p:number){
+    this.upcomingLauncesPage.set(p)
+  }
+
+  latestLaunches = injectQuery(() => ({
     queryKey: ['latest-launches', this.latestLaunchesPage()],
     queryFn: () =>
       lastValueFrom(
@@ -48,7 +52,7 @@ export class Dash {
     
   }))
 
-   latesetLaunchesCount = injectQuery(() => ({
+   latestLaunchesCount = injectQuery(() => ({
     queryKey: ['upcoming-launches-count'],
     queryFn:()=>
       lastValueFrom(
