@@ -95,7 +95,6 @@ public class LaunchService : ILaunchService
         LEFT JOIN LaunchServiceProviders lsp
         ON lsp.Id = l.LaunchServiceProviderId
 
-      
         """);
 
         switch (launchMode)
@@ -157,6 +156,8 @@ public class LaunchService : ILaunchService
                     Name = reader.GetString("LaunchStatusName")
                 },
                 WindowEnd = reader.GetDateTime("WindowEnd"),
+                WindowStart = reader.GetDateTime("WindowStart"),
+                Slug = reader.GetString("Slug")
             });
         }
 

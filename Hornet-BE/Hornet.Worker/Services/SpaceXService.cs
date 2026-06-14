@@ -15,6 +15,7 @@ public class SpaceXService : ISpaceXService
 {
     private readonly HttpClient _httpClient;
     private readonly string BaseUrl = "https://lldev.thespacedevs.com/2.3.0/";
+    private static readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
     public SpaceXService(HttpClient httpClient)
     {
         _httpClient = httpClient;
@@ -48,14 +49,13 @@ public class SpaceXService : ISpaceXService
 
         var value = await _httpClient.GetAsync(url);
 
+        value.EnsureSuccessStatusCode();
+
         var json = await value.Content.ReadAsStringAsync();
 
         try
         {
-            var result = JsonSerializer.Deserialize<SpaceXLaunchesResult>(
-                json,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            );
+            var result = JsonSerializer.Deserialize<SpaceXLaunchesResult>(json, _jsonOptions);
 
             if (result == null) throw new Exception("Deserialization returned null");
 
