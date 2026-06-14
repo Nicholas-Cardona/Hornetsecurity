@@ -59,6 +59,27 @@ public class SpaceXController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("launch", Name = "Launch")]
+    public async Task<IActionResult> GetLaunchById(Guid id)
+    {
+        try
+        {
+            var res = await _launchService.GetLaunchByIdAsync(id);
+
+            if (res == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(res);
+        }
+        catch
+        {
+            return StatusCode(500, "Uncaught Error");
+        }
+    }
+
+    [Authorize]
     [HttpGet("upcoming", Name = "Upcoming Launches")]
     public async Task<IActionResult> GetUpcomingLaunches([FromQuery] GetUpcomingLaunchesRequest request)
     {

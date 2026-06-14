@@ -25,4 +25,36 @@ public class LaunchMapper
             LaunchServiceProviderId = dto.LaunchServiceProvider?.Id
         };
     }
+
+    public static GetLaunchDto ToDto(LaunchEntity l)
+    {
+        return new GetLaunchDto
+        {
+            Id = l.Id,
+            Name = l.Name,
+            Slug = l.Slug,
+            Net = l.Net,
+            Rocket = new RocketDto
+            {
+                Name = l.Rocket != null ? l.Rocket.Name : "N/A",
+                Id = l.Rocket != null ? l.Rocket.Id : 0,
+                Variant = l.Rocket != null ? l.Rocket.Variant : "N/A"
+            },
+            LaunchServiceProvider = new LaunchServiceProviderDto
+            {
+                Id = l.LaunchServiceProvider != null ? l.LaunchServiceProvider.Id : 0,
+                Name = l.LaunchServiceProvider != null ? l.LaunchServiceProvider.Name : "N/A"
+            },
+            LaunchStatus = new LaunchStatusDto
+            {
+                Description = l.Status != null ? l.Status.Description : "N/A",
+                Name = l.Status != null ? l.Status.Name : "N/A",
+                Id = l.Status != null ? l.Status.Id : 0
+            },
+            ImageUrl = l.ImageUrl,
+            WindowEnd = l.WindowEnd,
+            WindowStart = l.WindowStart
+
+        };
+    }
 }
