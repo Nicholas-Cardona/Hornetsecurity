@@ -24,7 +24,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SpaceXSyncTrigger")
         .StartNow()
         .WithSimpleSchedule(x => x
-            .WithInterval(TimeSpan.FromMinutes(5))
+            .WithInterval(TimeSpan.FromMinutes(10))
             .RepeatForever()
         )
     );

@@ -14,7 +14,7 @@ namespace Hornet.Worker.Services;
 public class SpaceXService : ISpaceXService
 {
     private readonly HttpClient _httpClient;
-    private readonly string BaseUrl = "https://lldev.thespacedevs.com/2.3.0/";
+    private readonly string BaseUrl = "https://ll.thespacedevs.com/2.3.0/";
     private static readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
     public SpaceXService(HttpClient httpClient)
     {

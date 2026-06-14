@@ -25,13 +25,6 @@ public class SpaceXSyncService : ISpaceXSyncService
 
     public async Task SyncLaunches(SpaceXLaunchesResult result)
     {
-        // var result = await _spaceXService.GetLaunchesAsync(
-        //     LaunchMode.All,
-        //     page: 1,
-        //     size: 10,
-        //     desc: true
-        // );
-
         await using var conn = await _dataSource.OpenConnectionAsync();
         await using var transaction = await conn.BeginTransactionAsync();
 
