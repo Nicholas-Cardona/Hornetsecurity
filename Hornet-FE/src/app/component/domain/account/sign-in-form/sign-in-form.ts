@@ -3,7 +3,7 @@ import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
 import { CustomInput } from '../../../utils/input/custom-input/custom-input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormButton } from "../../../utils/input/form-button/form-button";
-import { AccountService, SignInRequest } from '../../../../services/core/account';
+import { AccountService, SignInRequest } from '@services/core/account';
 import { finalize, tap } from 'rxjs';
 import { MatCheckbox } from "@angular/material/checkbox";
 import { Router } from '@angular/router';

@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
+import { SignInRequest } from './SignInRequest';
+import { SignUpRequest } from './SignUpRequest';
 
 @Service()
 export class AccountService {
-  private httpClient = inject(HttpClient);
+ private httpClient = inject(HttpClient);
 
   private accountApiUrl(endpoint: string) {
     return `/api/account/${endpoint}`;
@@ -16,18 +18,4 @@ export class AccountService {
   public signUp(request: SignUpRequest) {
     return this.httpClient.post(this.accountApiUrl('sign-up'), request);
   }
-}
-
-export interface SignUpRequest {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
-
-export interface SignInRequest {
-  email: string;
-  password: string;
-  rememberMe:boolean
 }
