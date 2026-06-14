@@ -22,7 +22,7 @@ public class SpaceXSyncJob : IJob
         using var scope = _scopeFactory.CreateScope();
 
         var upcomingTask = _spaceXService.GetLaunchesAsync(
-            LaunchMode.Upcoming, 1, 20, true);
+            LaunchMode.Upcoming, 1, 20, false);
 
         var pastTask = _spaceXService.GetLaunchesAsync(
             LaunchMode.Past, 1, 20, true);

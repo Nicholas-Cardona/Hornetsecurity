@@ -27,7 +27,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'latest'
+        redirectTo: 'last'
       },
       {
         path: 'latest',

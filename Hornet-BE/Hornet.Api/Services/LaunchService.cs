@@ -25,6 +25,7 @@ public class LaunchService : ILaunchService
     public async Task<GetLaunchDto?> GetLastLaunchAsync()
     {
         return await _dbContext.Launches
+        .Where(l =>l.Net <  DateTime.UtcNow)
         .OrderByDescending(l => l.Net)
         .Select(l => new GetLaunchDto
         {
@@ -51,7 +52,6 @@ public class LaunchService : ILaunchService
             ImageUrl = l.ImageUrl,
             WindowEnd = l.WindowEnd,
             WindowStart = l.WindowStart
-
         })
         .FirstOrDefaultAsync();
     }
@@ -59,7 +59,8 @@ public class LaunchService : ILaunchService
     public async Task<IEnumerable<GetLaunchDto>> GetLaunchesAsync(
       LaunchMode launchMode,
       int page,
-      int size
+      int size,
+      bool desc
       )
     {
         if (page <= 0 || size <= 0) throw new ArgumentException("Both page and size need to be larget than 1");
@@ -113,8 +114,21 @@ public class LaunchService : ILaunchService
                 break;
         }
 
+        switch (desc)
+        {
+            case true:
+                {
+                    sql.Append("ORDER BY l.Net DESC");
+                    break;
+                }
+            case false:
+                {
+                    sql.Append("ORDER BY l.Net");
+                    break;
+                }
+        }
+
         sql.Append(@"  
-        ORDER BY l.Net DESC
         LIMIT @size OFFSET @offset;"
         );
 

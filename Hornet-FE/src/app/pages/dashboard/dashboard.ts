@@ -10,8 +10,8 @@ import { RouterLinkWithHref } from "@angular/router";
 })
 export class Dashboard {
   navLinks = signal([
+    { path: '/dash/last', label: 'Last', exact: true },
     { path: '/dash/latest', label: 'Latest', exact: true },
     { path: '/dash/upcoming', label: 'Upcoming', exact: false },
-    { path: '/dash/last', label: 'Last', exact: false }
   ]);
 }
