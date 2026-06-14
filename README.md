@@ -61,6 +61,7 @@ To run the application locally:
 ```
 docker compose up -d
 ```
+and then visit http://localhost:5001 when the containers are built and are running.
 
 This starts all required services, including:
 - Backend API
