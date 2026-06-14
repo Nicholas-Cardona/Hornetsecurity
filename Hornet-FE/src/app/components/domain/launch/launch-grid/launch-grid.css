@@ -1,20 +1,23 @@
 .shell {
+    height: 100%;
     background: #0d0d0f;
     border: 0.5px solid rgba(255, 255, 255, 0.07);
-    border-radius: 20px;
-    padding: 28px;
+    padding: 2rem;
     font-family: system-ui, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 28px;
+    margin-bottom: 1rem;
 }
 
 .grid-title {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 500;
     color: #f0f0f2;
     letter-spacing: -0.02em;
@@ -25,7 +28,7 @@
     color: rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.05);
     border: 0.5px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 5rem;
     padding: 4px 10px;
     letter-spacing: 0.04em;
 }
@@ -35,6 +38,8 @@
     grid-template-columns: repeat(1, 1fr);
     gap: 16px;
     margin-bottom: 28px;
+    overflow: auto;
+    max-height: inherit;
 }
 
 @media (min-width: 640px) {
