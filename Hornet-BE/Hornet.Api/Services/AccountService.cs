@@ -32,6 +32,8 @@ public class AccountService : IAccountService
         {
             ParseIdentityErrors(result.Errors);
         }
+
+        await SignInUserAsync(new SignInRequest {Email = request.Email, Password = request.Password, RememberMe = false});
     }
 
     public async Task SignInUserAsync(SignInRequest request)
