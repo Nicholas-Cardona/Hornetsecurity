@@ -58,7 +58,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         options.SlidingExpiration = true;
         options.AccessDeniedPath = "/sign-in/";
     });
@@ -82,8 +81,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-
 
 app.UseHttpsRedirection();
 
