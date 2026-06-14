@@ -8,6 +8,12 @@
 
     <mat-checkbox formControlName="rememberMe">Remember me</mat-checkbox>
 
-    <app-form-button [disabled]="form.invalid">Sign In</app-form-button>
+    <app-form-button [disabled]="form.invalid || isLoading()">
+      @if (isLoading()){
+        Signing in...
+      } @else {
+        Sign In
+      }
+    </app-form-button>
   </form>
 </app-card-skeleton>

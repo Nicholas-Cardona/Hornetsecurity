@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
+import { NgControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-input',
@@ -6,11 +7,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './custom-input.html',
   styleUrl: './custom-input.css',
 })
-export class CustomInput {
+export class CustomInput{
+
   @Input() value = '';
   @Input() placeholder = '';
   @Input() label = '';
   @Input() type = "";
+  @Input() required = false;
 
   @Output() valueChange = new EventEmitter<string>();
 

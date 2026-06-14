@@ -9,5 +9,4 @@ import { SignInForm } from "../../component/domain/account/sign-in-form/sign-in-
   styleUrl: './sign-in.css',
 })
 export class SignIn {
-  value1 = '';
 }

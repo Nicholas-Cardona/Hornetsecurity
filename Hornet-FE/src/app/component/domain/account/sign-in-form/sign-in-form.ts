@@ -1,11 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
 import { CustomInput } from '../../../utils/input/custom-input/custom-input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormButton } from "../../../utils/input/form-button/form-button";
 import { AccountService, SignInRequest } from '../../../../services/core/account';
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { MatCheckbox } from "@angular/material/checkbox";
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarAction } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -15,22 +18,24 @@ import { MatCheckbox } from "@angular/material/checkbox";
   styleUrl: './sign-in-form.css',
 })
 export class SignInForm {
+  private account = inject(AccountService)
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar)
+
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     rememberMe: new FormControl(true)
   });
 
-  isLoading = false;
-  account= inject(AccountService)
+  isLoading = signal(false);
 
-submit(){
+  submit() {
     if (this.form.invalid) return;
 
     const value = this.form.value
 
-
-    this.isLoading = true
+    this.isLoading.set(true)
 
     const signInRequest: SignInRequest = {
       email: value.email!,
@@ -38,18 +43,33 @@ submit(){
       rememberMe: value.rememberMe!
     }
 
-    this.account.signIn(signInRequest).pipe(
-      finalize(() => {
-        this.isLoading = false;
-      })
-    )
+    this.account.signIn(signInRequest)
+      .pipe(
+        finalize(() => this.isLoading.set(false))
+      )
       .subscribe({
         next: (res) => {
-          console.log('Signed up:', res);
+          this.router.navigate(["/dash"]);
         },
-        error: (err) => {
-          console.error('Sign-up failed:', err);
+        error: (err: HttpErrorResponse) => {
+          if (err.status == 401) {
+
+            this.snackBar.open("Incorrect username or password", "CLOSE",
+              {
+                panelClass: ['toast-error'],
+                duration: 5000
+              }
+            )
+          } else {
+            this.snackBar.open("Error when signing up", "CLOSE",
+              {
+                panelClass: ['toast-error'],
+                duration: 5000
+              }
+            )
+          }
+          console.error('Sign-in failed:', err);
         },
       });
-}
+  }
 }

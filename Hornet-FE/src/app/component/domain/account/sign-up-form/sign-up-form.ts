@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { AccountService, SignUpRequest } from '../../../../services/core/account';
@@ -6,6 +6,7 @@ import { FormButton } from '../../../utils/input/form-button/form-button';
 import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomInput } from '../../../utils/input/custom-input/custom-input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -15,17 +16,26 @@ import { CustomInput } from '../../../utils/input/custom-input/custom-input';
 })
 export class SignUpForm {
   private account = inject(AccountService);
-  isLoading = false;
+  private router = inject(Router)
+  private snackBar = inject(MatSnackBar)
+  isLoading = signal(false);
 
   form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)]),
     confirmPassword: new FormControl('', [Validators.required]),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required])
   });
 
-  private snackBar = inject(MatSnackBar)
+  get password() {
+    return this.form.get('password');
+  }
+
+  get confirmPassword() {
+    return this.form.get('confirmPassword');
+  }
+
 
   submit() {
     if (this.form.invalid) return;
@@ -41,7 +51,7 @@ export class SignUpForm {
       return
     }
 
-    this.isLoading = true
+    this.isLoading.set(true)
 
     const signUpRequest: SignUpRequest = {
       email: value.email!,
@@ -53,14 +63,19 @@ export class SignUpForm {
 
     this.account.signUp(signUpRequest).pipe(
       finalize(() => {
-        this.isLoading = false;
+        this.isLoading.set(false)
       })
     )
       .subscribe({
         next: (res) => {
-          console.log('Signed up:', res);
+          this.router.navigate(["dash"])
         },
         error: (err) => {
+          this.snackBar.open("Error when signing up", "CLOSE",
+            {
+              panelClass: ['toast-error'],
+            }
+          )
           console.error('Sign-up failed:', err);
         },
       });
