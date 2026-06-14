@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
-import { CustomInput } from '../../../utils/input/custom-input/custom-input';
+import { CardSkeleton } from "@components/utils/card/card-skeleton/card-skeleton";
+import { CustomInput } from '@components/utils/input/custom-input/custom-input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormButton } from "../../../utils/input/form-button/form-button";
+import { FormButton } from "@components/utils/input/form-button/form-button";
 import { AccountService, SignInRequest } from '@services/core/account';
 import { finalize, tap } from 'rxjs';
 import { MatCheckbox } from "@angular/material/checkbox";

@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-import { FormButton } from '../../../utils/input/form-button/form-button';
-import { CardSkeleton } from "../../../utils/card/card-skeleton/card-skeleton";
+import { FormButton } from '@components/utils/input/form-button/form-button';
+import { CardSkeleton } from "@components/utils/card/card-skeleton/card-skeleton";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CustomInput } from '../../../utils/input/custom-input/custom-input';
+import { CustomInput } from '@components/utils/input/custom-input/custom-input';
 import { Router } from '@angular/router';
 import { AccountService, SignUpRequest } from '@services/core/account';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SignInForm } from "../../component/domain/account/sign-in-form/sign-in-form";
+import { SignInForm } from "@components/domain/account/sign-in-form/sign-in-form";
 
 @Component({
   selector: 'app-sign-in',
