@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hornet.Api.Services;
 using Hornet.Domain.DTOs.SpaceX;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hornet.Api.Controllers;
@@ -13,13 +14,14 @@ namespace Hornet.Api.Controllers;
 [Route("/api/[controller]")]
 public class SpaceXController : ControllerBase
 {
-    private readonly ILaunchService  _launchService;
+    private readonly ILaunchService _launchService;
 
     public SpaceXController(ILaunchService launchService)
     {
         _launchService = launchService;
     }
 
+    [Authorize]
     [HttpGet("latest", Name = "Latest Launches")]
     public async Task<IActionResult> GetPastLaunches([FromQuery] GetLatestLaunchesRequest request)
     {
@@ -40,13 +42,14 @@ public class SpaceXController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("count", Name = "Launch Count")]
     public async Task<IActionResult> GetLaunchesCount([Required] LaunchMode mode)
     {
         try
         {
             var res = await _launchService.GetLaunchesCount(mode);
-            
+
             return Ok(res);
         }
         catch
@@ -55,6 +58,7 @@ public class SpaceXController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("upcoming", Name = "Upcoming Launches")]
     public async Task<IActionResult> GetUpcomingLaunches([FromQuery] GetUpcomingLaunchesRequest request)
     {
@@ -74,6 +78,7 @@ public class SpaceXController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("last", Name = "Most Recent Launch")]
     public async Task<IActionResult> GetMostRecentLaunch()
     {

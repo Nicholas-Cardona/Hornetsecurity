@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Hornet.Api.Services;
 using Hornet.Domain.DTOs.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hornet.Api.Controllers;
@@ -17,6 +18,7 @@ public class AccountController : ControllerBase
         _service = service;
     }
 
+    [AllowAnonymous]
     [HttpPost("sign-up", Name = "SignUp")]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
     {
@@ -40,6 +42,7 @@ public class AccountController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpPost("sign-in", Name = "SignIn")]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
     {
