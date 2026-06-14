@@ -1,1 +1,36 @@
-<p>last works!</p>
+@if(launch){
+<div class="h-full overflow-hidden">
+ <div class="hero-image"  [ngStyle]="{ 'background-image': 'url(' + launch.imageUrl + ')' }"> >
+    <h1>{{launch.name}}</h1>
+    <h2>{{launch.slug}}</h2>
+    <h2>{{launch.launchServiceProvider.name}}</h2>
+
+    <div>
+        <div>
+         Launch Status   {{launch.launchStatus.name}}
+        </div>
+
+        <div>
+            Deparutre time: {{launchNet}}
+        </div>
+
+        <div>
+            Window Start: {{launch.windowStart}}
+        </div>
+
+        <div>
+            Window End: {{launch.windowEnd}}
+        </div>
+
+        <div>
+            Rocket: {{launch.rocket.name}}
+            {{launch.rocket.variant}}
+        </div>
+
+
+    </div>
+ </div>
+</div>
+} @else {
+Loading...
+}

@@ -36,6 +36,5 @@ export class Upcoming {
       lastValueFrom(
         this.launchService.getLaunchesCount(LaunchMode.upcoming)
       )
-
   }))
 }
