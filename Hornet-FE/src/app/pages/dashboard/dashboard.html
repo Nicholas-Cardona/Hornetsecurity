@@ -1,0 +1,19 @@
+<div class="app-container">
+      <header class="header-bar">
+        <h1>Hornetsecutiry</h1>
+        <nav class="nav-links">
+          @for (link of navLinks(); track link.path) {
+            <a 
+              [routerLink]="link.path" 
+              routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: link.exact }">
+              {{ link.label }}
+            </a>
+          }
+        </nav>
+      </header>
+
+      <main class="content-area">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
