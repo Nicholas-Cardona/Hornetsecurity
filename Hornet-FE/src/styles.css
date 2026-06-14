@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@tailwind utilities;
 @use '@angular/material' as mat;
 
-@tailwind utilities;
 
 @layer components {
   .app-input {

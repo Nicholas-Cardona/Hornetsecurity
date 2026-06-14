@@ -2,7 +2,7 @@
   <!-- Header -->
   <header class="header">
     <h2 class="grid-title">{{ title }}</h2>
-    <span class="page-badge">Page {{ page }} of {{ totalPages() }}</span>
+    <span class="page-badge">Page {{ page }} of {{ totalPages }}</span>
   </header>
 
   <!-- Grid -->
@@ -17,7 +17,7 @@
   }
 
   <!-- Pagination -->
-  @if (totalPages() > 1) {
+  @if (totalPages > 1) {
     <nav class="pagination" aria-label="Pagination">
       <button
         class="pg-btn"
@@ -33,13 +33,13 @@
       <span class="pg-indicator">
         <span class="current">{{ page }}</span>
         <span class="pg-divider">/</span>
-        {{ totalPages() }}
+        {{ totalPages }}
       </span>
 
       <button
         class="pg-btn"
         (click)="next()"
-        [disabled]="page === totalPages()"
+        [disabled]="page === totalPages"
       >
         Next
         <svg viewBox="0 0 24 24">

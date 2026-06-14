@@ -24,9 +24,9 @@ export class LaunchGridComponent {
     return this.page * this.size < this.count;
   }
 
-  totalPages = computed(() =>
-   Math.ceil(this.count / this.size)
-  );
+  get totalPages(){
+    return Math.ceil(this.count / this.size)
+  }
 
   prev() {
     if (this.page > 1) {
