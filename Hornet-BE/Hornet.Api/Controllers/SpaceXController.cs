@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Hornet.Api.Services;
 using Hornet.Domain.DTOs.SpaceX;
 using Microsoft.AspNetCore.Authorization;
@@ -70,7 +66,7 @@ public class SpaceXController : ControllerBase
             {
                 return NotFound();
             }
-            
+
             return Ok(res);
         }
         catch

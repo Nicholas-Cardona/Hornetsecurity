@@ -12,7 +12,6 @@ public class AccountService : IAccountService
 {
     private readonly UserManager<UserEntity> _userManager;
     private readonly SignInManager<UserEntity> _signInManager;
-    private readonly PasswordHasher<UserEntity> passwordHasher = new();
 
     public AccountService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
     {
