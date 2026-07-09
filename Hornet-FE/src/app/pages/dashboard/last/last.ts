@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { LaunchService } from '@services/core/launch/launch.service';
-import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
-import { LaunchFocus } from "@components/domain/launch/launch-focus/launch-focus";
+import { LaunchFocus } from '@components/domain/launch/launch-focus/launch-focus';
+import { Launch } from '@services/core/launch/Launch';
 
 @Component({
   selector: 'app-last',
@@ -12,16 +12,15 @@ import { LaunchFocus } from "@components/domain/launch/launch-focus/launch-focus
 })
 export class Last {
   private launchService = inject(LaunchService);
+  launch = signal<Launch | undefined>(undefined);
 
-  launchQuery = injectQuery(() => ({
-    queryKey: ['last-launch'],
-    queryFn: () =>
-      lastValueFrom(
-        this.launchService.getLastLaunch(),
-      )
-  }));
+  constructor() {
+    this.handleGetLastLaunch();
+  }
 
-  get launch(){
-    return this.launchQuery.data()
+  handleGetLastLaunch() {
+    this.launchService.getLastLaunch().subscribe((val) => {
+      this.launch.set(val);
+    });
   }
 }

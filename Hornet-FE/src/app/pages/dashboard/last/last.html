@@ -1,1 +1,3 @@
-<app-launch-focus [launch]="launch" class="w-full h-full" />
+@if (launch(); as launch) {
+  <app-launch-focus [launch]="launch" class="w-full h-full" />
+}

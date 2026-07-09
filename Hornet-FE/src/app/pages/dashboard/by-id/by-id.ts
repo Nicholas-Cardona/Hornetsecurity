@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LaunchService } from '@services/core/launch/launch.service';
-import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LaunchFocus } from '@components/domain/launch/launch-focus/launch-focus';

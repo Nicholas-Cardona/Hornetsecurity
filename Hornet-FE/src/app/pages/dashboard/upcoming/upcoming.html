@@ -1,8 +1,10 @@
-<app-launch-grid
+@if (launches(); as launches) {
+  <app-launch-grid
     title="Upcoming Launches"
-    [launches]="upcomingLaunches.data()!"
-    [count]="upcomingLaunchesCount.data()!"
+    [launches]="launches"
+    [count]="launchesCount()"
     [page]="upcomingLauncesPage()"
     [size]="pagingSize"
     (pageChange)="handleChangeUpcomingPage($event)"
-/>
+  />
+}
