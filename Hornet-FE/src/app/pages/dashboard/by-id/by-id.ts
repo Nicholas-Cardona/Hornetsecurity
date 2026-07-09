@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LaunchService } from '@services/core/launch/launch.service';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { LaunchFocus } from "@components/domain/launch/launch-focus/launch-focus";
+import { LaunchFocus } from '@components/domain/launch/launch-focus/launch-focus';
+import { Launch } from '@services/core/launch/Launch';
 
 @Component({
   selector: 'app-by-id',
@@ -12,27 +13,24 @@ import { LaunchFocus } from "@components/domain/launch/launch-focus/launch-focus
   templateUrl: './by-id.html',
   styleUrl: './by-id.css',
 })
-export class ById {
-private route = inject(ActivatedRoute);
+export class ById implements OnInit {
+  private route = inject(ActivatedRoute);
   private launchService = inject(LaunchService);
 
-  launchId = toSignal(
-    this.route.paramMap,
-    { initialValue: null }
-  );
+  launchId = toSignal(this.route.paramMap, { initialValue: null });
+  launch = signal<Launch | undefined>(undefined);
 
-  launchQuery = injectQuery(() => {
+  async handleRefresh() {
     const id = this.launchId()?.get('id');
 
-    return {
-      queryKey: ['launch', id],
-      enabled: !!id,
-      queryFn: () =>
-        lastValueFrom(this.launchService.getLaunch(id!)),
-    };
-  });
+    if (!id) return;
 
-  get launch() {
-    return this.launchQuery.data();
+    this.launchService.getLaunch(id).subscribe((val) => {
+      this.launch.set(val);
+    });
+  }
+
+  ngOnInit(): void {
+    this.handleRefresh();
   }
 }

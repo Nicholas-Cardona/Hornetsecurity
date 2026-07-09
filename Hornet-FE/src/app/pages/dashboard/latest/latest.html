@@ -1,7 +1,10 @@
-<app-launch-grid 
-  title="Latest Launches" 
-  [launches]="latestLaunches.data()!"
-  [count]="latestLaunchesCount.data()!"
-  [page]="latestLaunchesPage()"
-  [size]="pagingSize"
-  (pageChange)="handleChangeLatestPage($event)" />
+@if (latestLaunches(); as launches) {
+  <app-launch-grid
+    title="Latest Launches"
+    [launches]="launches"
+    [count]="latestLaunchesCount() ?? 0"
+    [page]="latestLaunchesPage()"
+    [size]="pagingSize"
+    (pageChange)="handleChangeLatestPage($event)"
+  />
+}

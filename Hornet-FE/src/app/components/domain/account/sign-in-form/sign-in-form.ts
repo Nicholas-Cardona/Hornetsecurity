@@ -9,6 +9,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarAction } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SignIn } from '@pages/sign-in/sign-in';
 
 @Component({
   selector: 'app-sign-in-form',

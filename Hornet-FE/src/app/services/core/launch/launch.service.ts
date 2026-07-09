@@ -18,7 +18,7 @@ export class LaunchService {
     return this.httpClient.get<Launch>(this.accountApiUrl('launch'), { params: { id } });
   }
 
-  public getLatestLaunches(request: GetLatestLaunchesRequest) {
+  public getLatestLaunches(request: GetLatestLaunchesRequest): Observable<Launch[]> {
     return this.httpClient.get<Launch[]>(this.accountApiUrl('latest'), {
       params: { page: request.page, size: request.size },
     });
