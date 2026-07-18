@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Hornet.Data.Entities;
 using Hornet.Domain.DTOs.Account;
 
@@ -18,6 +14,18 @@ public static class UserMapper
             FirstName = request.FirstName,
             LastName = request.LastName,
             Password = request.Password
+        };
+    }
+
+    public static UserResponse ResponseFromEntity(UserEntity user)
+    {
+        return new UserResponse
+        {
+            Id = user.Id,
+            EmailConfirmed = user.EmailConfirmed,
+            Email = user.Email ?? "",
+            LastName = user.LastName,
+            Name = user.FirstName
         };
     }
 }

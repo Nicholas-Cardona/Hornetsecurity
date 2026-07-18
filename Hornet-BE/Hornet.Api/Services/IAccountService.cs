@@ -7,4 +7,5 @@ public interface IAccountService
 {
     Task SignUpUserAsync(SignUpRequest request);
     Task SignInUserAsync(SignInRequest request);
+    Task<UserEntity> GetIdentity();
 }

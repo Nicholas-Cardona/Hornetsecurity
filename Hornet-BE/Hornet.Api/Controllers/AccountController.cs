@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Hornet.Api.Services;
+using Hornet.Data.Mappers;
 using Hornet.Domain.DTOs.Account;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hornet.Api.Controllers;
@@ -64,6 +66,26 @@ public class AccountController : ControllerBase
                 default:
                     return StatusCode(500);
             }
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpGet("Identity")]
+    public async Task<IActionResult> GetIdentity()
+    {
+        try
+        {
+            var user = await _service.GetIdentity();
+            var userResponse = UserMapper.ResponseFromEntity(user);
+            return Ok(userResponse);
+        }
+        catch (KeyNotFoundException)
+        {
+            return Unauthorized();
+        }
+        catch
+        {
+            return StatusCode(500);
         }
     }
 }

@@ -5,7 +5,7 @@ import { SignUpRequest } from './SignUpRequest';
 
 @Service()
 export class AccountService {
- private httpClient = inject(HttpClient);
+  private httpClient = inject(HttpClient);
 
   private accountApiUrl(endpoint: string) {
     return `/api/account/${endpoint}`;
@@ -17,5 +17,9 @@ export class AccountService {
 
   public signUp(request: SignUpRequest) {
     return this.httpClient.post(this.accountApiUrl('sign-up'), request);
+  }
+
+  public getIdentity() {
+    return this.httpClient.get(this.accountApiUrl('Identity'));
   }
 }
