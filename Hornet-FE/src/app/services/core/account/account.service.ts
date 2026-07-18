@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { SignInRequest } from './SignInRequest';
 import { SignUpRequest } from './SignUpRequest';
+import { Observable } from 'rxjs';
+import { GetIdentityResponse } from './GetIdentityResponse';
 
 @Service()
 export class AccountService {
@@ -19,7 +21,7 @@ export class AccountService {
     return this.httpClient.post(this.accountApiUrl('sign-up'), request);
   }
 
-  public getIdentity() {
-    return this.httpClient.get(this.accountApiUrl('Identity'));
+  public getIdentity(): Observable<GetIdentityResponse> {
+    return this.httpClient.get<GetIdentityResponse>(this.accountApiUrl('Identity'));
   }
 }

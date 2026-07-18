@@ -1,3 +1,4 @@
-export * from "./SignInRequest"
-export * from "./SignUpRequest"
-export * from "./account.service"
+export * from './SignInRequest';
+export * from './SignUpRequest';
+export * from './GetIdentityResponse';
+export * from './account.service';
